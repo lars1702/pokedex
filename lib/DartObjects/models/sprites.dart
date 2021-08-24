@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 class Sprites {
   final String? backDefault;
   final String? backShiny;
-  final String? frontDefault;
+  final String frontDefault;
   final String? frontShiny;
 
   const Sprites({
     this.backDefault,
     this.backShiny,
-    this.frontDefault,
+    required this.frontDefault,
     this.frontShiny,
   });
 
@@ -22,7 +22,7 @@ class Sprites {
   factory Sprites.fromJson(Map<String, dynamic> json) => Sprites(
         backDefault: json['back_default'] as String?,
         backShiny: json['back_shiny'] as String?,
-        frontDefault: json['front_default'] as String?,
+        frontDefault: json['front_default'] as String,
         frontShiny: json['front_shiny'] as String?,
       );
 

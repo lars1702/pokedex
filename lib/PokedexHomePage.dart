@@ -3,6 +3,12 @@ import 'package:pokedex/DartObjects/Pokemon.do.dart';
 import 'package:pokedex/DartObjects/models/pokemon_do.dart';
 import 'package:pokedex/api.dart';
 
+extension StringExtension on String {
+    String capitalize() {
+      return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+    }
+}
+
 class PokeDexHomePage extends StatefulWidget {
   PokeDexHomePage({Key? key, required this.title, foobar}) : super(key: key);
 
@@ -14,15 +20,17 @@ class PokeDexHomePage extends StatefulWidget {
 
 class _PokeDexHomePageState extends State<PokeDexHomePage> {
   late Future<PokemonDo> futurePokemon;
+  var _currentPokemon;
+  final myController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    futurePokemon = getPokemon("ekans");
+    futurePokemon = getPokemon(myController.text != "" ? myController.text : "pikachu");
+    setState(() {
+      _currentPokemon = futurePokemon;
+    });
   }
-
-  var _currentPokemon;
-  final myController = TextEditingController();
 
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -30,16 +38,12 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
     super.dispose();
   }
 
-  void handleOnPressed(String text) async {
-    print('DEBUG - $futurePokemon');
-    print("mycontrol text ${myController.text}");
-    print("param $text");
+  void handleOnSubmit(String text) async {
 
-    var pokemon = await getPokemon(myController.text);
+    var pokemon = getPokemon(myController.text.toLowerCase());
     setState(() {
       _currentPokemon = pokemon;
     });
-    print("DEBUG after - $pokemon");
   }
 
   @override
@@ -55,7 +59,7 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
             widthFactor: 0.7,
             child: Column(children: <Widget>[
               TextField(
-                onSubmitted: handleOnPressed,
+                onSubmitted: handleOnSubmit,
                 controller: myController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -63,14 +67,17 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
                 ),
               ),
               FutureBuilder<PokemonDo>(
-                future: futurePokemon,
+                future: _currentPokemon,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                  print('DEBUG pokemon ${snapshot.data}');
                     return Column(children: <Widget>[
-                      Text('test'),
+                      Text(snapshot.data!.name.capitalize()),
+                      Image.network(snapshot.data!.sprites.frontDefault)
                     ]);
                   } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
+                  print('DEBUG error ${myController.text}');
+                    return Text('Error: ${myController.text} not found');
                   }
                   // By default, show a loading spinner.
                   return const CircularProgressIndicator();

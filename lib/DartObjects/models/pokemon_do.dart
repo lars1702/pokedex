@@ -7,18 +7,18 @@ import 'type.dart';
 class PokemonDo {
   final int? height;
   final int? id;
-  final String? name;
+  final String name;
   final int? order;
-  final Sprites? sprites;
+  final Sprites sprites;
   final List<Type>? types;
   final int? weight;
 
   const PokemonDo({
     this.height,
     this.id,
-    this.name,
+    required this.name,
     this.order,
-    this.sprites,
+    required this.sprites,
     this.types,
     this.weight,
   });
@@ -31,11 +31,9 @@ class PokemonDo {
   factory PokemonDo.fromJson(Map<String, dynamic> json) => PokemonDo(
         height: json['height'] as int?,
         id: json['id'] as int?,
-        name: json['name'] as String?,
+        name: json['name'] as String,
         order: json['order'] as int?,
-        sprites: json['sprites'] == null
-            ? null
-            : Sprites.fromJson(json['sprites'] as Map<String, dynamic>),
+        sprites: Sprites.fromJson(json['sprites'] as Map<String, dynamic>),
         types: (json['types'] as List<dynamic>?)
             ?.map((e) => Type.fromJson(e as Map<String, dynamic>))
             .toList(),
@@ -47,7 +45,7 @@ class PokemonDo {
         'id': id,
         'name': name,
         'order': order,
-        'sprites': sprites?.toJson(),
+        'sprites': sprites.toJson(),
         'types': types?.map((e) => e.toJson()).toList(),
         'weight': weight,
       };

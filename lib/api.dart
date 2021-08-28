@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:pokedex/DartObjects/Pokemon.do.dart';
 import 'package:pokedex/DartObjects/models/pokemon_do.dart';
 
 Future<PokemonDo> getPokemon(pokemon) async {

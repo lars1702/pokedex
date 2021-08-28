@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/PokedexHomePage.dart';
 
 void main() {
-  
   runApp(MyApp());
 }
 

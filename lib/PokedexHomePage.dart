@@ -11,18 +11,14 @@ class PokeDexHomePage extends StatefulWidget {
 }
 
 class _PokeDexHomePageState extends State<PokeDexHomePage> {
-  late Future<PokemonDo> futurePokemon;
+  late PokemonDo futurePokemon;
   var _currentPokemon;
   final myController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    futurePokemon =
-        getPokemon(myController.text != "" ? myController.text : "pikachu");
-    setState(() {
-      _currentPokemon = futurePokemon;
-    });
+    handleGetPokemon("pikachu");
   }
 
   // Clean up the controller when the widget is disposed.
@@ -31,8 +27,8 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
     super.dispose();
   }
 
-  void handleOnSubmit(String text) async {
-    var pokemon = getPokemon(myController.text.toLowerCase());
+  void handleGetPokemon(String text) async {
+    var pokemon = await getPokemon(text != "" ? text.toLowerCase() : "pikachu");
     setState(() {
       _currentPokemon = pokemon;
     });
@@ -49,18 +45,22 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
           margin: EdgeInsets.only(top: 25.0),
           child: FractionallySizedBox(
             widthFactor: 0.7,
-            child: Column(children: <Widget>[
-              TextField(
-                onSubmitted: handleOnSubmit,
-                controller: myController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Search for Pokémon',
-                ),
-              ),
-              PokemonCard(
-                  currentPokemon: _currentPokemon, myController: myController)
-            ]),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  TextField(
+                    onSubmitted: handleGetPokemon,
+                    controller: myController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Search for Pokémon',
+                    ),
+                  ),
+                  PokemonCard(
+                      currentPokemon: _currentPokemon,
+                      myController: myController)
+                ]),
           )),
     );
   }

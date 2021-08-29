@@ -10,25 +10,20 @@ class PokemonCard extends StatelessWidget {
   })  : _currentPokemon = currentPokemon,
         super(key: key);
 
-  final _currentPokemon;
+  final PokemonDo _currentPokemon;
   final TextEditingController myController;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<PokemonDo>(
-      future: _currentPokemon,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Column(children: <Widget>[
-            Text(snapshot.data!.name.capitalize()),
-            Image.network(snapshot.data!.sprites.frontDefault)
-          ]);
-        } else if (snapshot.hasError) {
-          return Text('Error: ${myController.text} not found');
-        }
-        // By default, show a loading spinner.
-        return const CircularProgressIndicator();
-      },
-    );
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(_currentPokemon.name.capitalize()),
+          SizedBox(
+              width: 175,
+              height: 175,
+              child: Image.network(_currentPokemon.sprites.frontDefault,
+                  fit: BoxFit.fitWidth))
+        ]);
   }
 }

@@ -12,8 +12,7 @@ class PokeDexHomePage extends StatefulWidget {
 
 class _PokeDexHomePageState extends State<PokeDexHomePage> {
   late PokemonDo futurePokemon;
-  var _currentPokemon;
-  final myController = TextEditingController();
+  var currentPokemon;
 
   @override
   void initState() {
@@ -21,16 +20,10 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
     handleGetPokemon("pikachu");
   }
 
-  // Clean up the controller when the widget is disposed.
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
-
   void handleGetPokemon(String text) async {
     var pokemon = await getPokemon(text != "" ? text.toLowerCase() : "pikachu");
     setState(() {
-      _currentPokemon = pokemon;
+      currentPokemon = pokemon;
     });
   }
 
@@ -51,15 +44,12 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
                 children: <Widget>[
                   TextField(
                     onSubmitted: handleGetPokemon,
-                    controller: myController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Search for Pokémon',
                     ),
                   ),
-                  PokemonCard(
-                      currentPokemon: _currentPokemon,
-                      myController: myController)
+                  PokemonCard(currentPokemon: currentPokemon)
                 ]),
           )),
     );

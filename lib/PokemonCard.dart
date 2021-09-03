@@ -12,7 +12,7 @@ class PokemonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var pkmn = currentPokemon;
-    print(currentPokemon);
+    //print(currentPokemon);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

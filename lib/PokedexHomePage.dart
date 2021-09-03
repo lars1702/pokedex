@@ -13,6 +13,7 @@ class PokeDexHomePage extends StatefulWidget {
 class _PokeDexHomePageState extends State<PokeDexHomePage> {
   late PokemonDo futurePokemon;
   var currentPokemon;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -22,6 +23,7 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
 
   void handleGetPokemon(String text) async {
     var pokemon = await getPokemon(text != "" ? text.toLowerCase() : "pikachu");
+    print("POKEMON $pokemon");
     setState(() {
       currentPokemon = pokemon;
     });

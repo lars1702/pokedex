@@ -1,6 +1,8 @@
+import 'package:crop/crop.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex/DartObjects/models/pokemon_do.dart';
 import 'package:pokedex/utils/capitalize.dart';
+import 'package:pokedex/utils/toBool.dart';
 
 class PokemonCard extends StatelessWidget {
   const PokemonCard({Key? key, required currentPokemon})
@@ -11,22 +13,24 @@ class PokemonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var pkmn = currentPokemon;
+    var p = currentPokemon;
+    final height = toBool(p.height) ? p.height : 1;
     //print(currentPokemon);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("name ${pkmn.name.capitalize()}"),
-          Text("height ${pkmn.height.toString()}"),
-          Text("id ${pkmn.id.toString()}"),
-          Text("order ${pkmn.order.toString()}"),
-          Text("weight ${pkmn.weight.toString()}"),
+          Text("name ${p.name.capitalize()}"),
+          Text("height ${height.toString()}"),
+          Text("id ${p.id.toString()}"),
+          Text("order ${p.order.toString()}"),
+          Text("weight ${p.weight.toString()}"),
           Container(
-            height: 175,
-            width: 175,
-            color: Colors.lightBlue[50],
-            child:
-                Image.network(pkmn.sprites.frontDefault, fit: BoxFit.fitWidth),
+            height: 150,
+            width: 150,
+            child: Crop(
+                backgroundColor: Color(0xffEEEEEE),
+                controller: new CropController(scale: height! < 10 ? 1.1 : 1),
+                child: Image.network(p.sprites.frontDefault, fit: BoxFit.fill)),
           )
         ]);
   }

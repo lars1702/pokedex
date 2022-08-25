@@ -22,8 +22,8 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
   }
 
   void handleGetPokemon(String text) async {
-    var pokemon = await getPokemon(text != "" ? text.toLowerCase() : "pikachu");
-    print("POKEMON $pokemon");
+    text = text.toLowerCase().trim();
+    var pokemon = await getPokemon(text);
     setState(() {
       currentPokemon = pokemon;
     });
@@ -36,24 +36,22 @@ class _PokeDexHomePageState extends State<PokeDexHomePage> {
         title: Text(widget.title),
       ),
       body: Container(
-          alignment: FractionalOffset.topCenter,
-          margin: EdgeInsets.only(top: 25.0),
-          child: FractionallySizedBox(
-            widthFactor: 0.7,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  TextField(
-                    onSubmitted: handleGetPokemon,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Search for Pokémon',
-                    ),
-                  ),
-                  PokemonCard(currentPokemon: currentPokemon)
-                ]),
-          )),
+        alignment: FractionalOffset.topCenter,
+        margin: EdgeInsets.only(top: 25.0),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              TextField(
+                onSubmitted: handleGetPokemon,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Search for Pokémon',
+                ),
+              ),
+              PokemonCard(currentPokemon: currentPokemon)
+            ]),
+      ),
     );
   }
 }

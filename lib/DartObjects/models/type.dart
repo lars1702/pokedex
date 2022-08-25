@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'type_type.dart';
+// import 'type_type.dart';
 
 @immutable
 class Type {
